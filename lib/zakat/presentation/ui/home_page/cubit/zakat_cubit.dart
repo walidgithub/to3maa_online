@@ -25,7 +25,9 @@ import 'package:To3maa/zakat/presentation/ui/home_page/cubit/zakat_states.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../domain/requests/auth/login_request.dart';
 import '../../../../domain/requests/auth/register_request.dart';
+import '../../../../domain/responses/auth/get_user_data_response.dart';
 import '../../../../domain/responses/product_data_response.dart';
+import '../../../../domain/use_cases/zakat_usecase/auth/get_user_data_usecase.dart';
 import '../../../../domain/use_cases/zakat_usecase/auth/login_usecase.dart';
 import '../../../../domain/use_cases/zakat_usecase/auth/logout_usecase.dart';
 import '../../../../domain/use_cases/zakat_usecase/auth/register_usecase.dart';
@@ -37,6 +39,7 @@ class ZakatCubit extends Cubit<ZakatState> {
   final DeleteZakatUseCase deleteZakatUseCase;
   final DeleteAllZakatUseCase deleteAllZakatUseCase;
   final DeleteProductUseCase deleteProductUseCase;
+  final GetUserDataUseCase getUserDataUseCase;
   final GetAllProductsUseCase getAllProductsUseCase;
   final GetProductDataUseCase getProductDataUseCase;
   final GetAllZakatUseCase getAllZakatUseCase;
@@ -53,6 +56,7 @@ class ZakatCubit extends Cubit<ZakatState> {
     this.deleteZakatUseCase,
     this.deleteAllZakatUseCase,
     this.deleteProductUseCase,
+    this.getUserDataUseCase,
     this.getAllProductsUseCase,
     this.getAllZakatUseCase,
     this.getZakatProductsByKilosUseCase,
@@ -296,6 +300,30 @@ class ZakatCubit extends Cubit<ZakatState> {
         (r) => emit(state.copyWith(
               getProductData: r,
               zakatState: RequestState.getProductDataLoaded,
+            )));
+  }
+
+  FutureOr<void> getUserData() async {
+    emit(state.copyWith(
+        zakatState: RequestState.getUserDataLoading,
+        zakatMessage: '',
+        getUserData: const UserDataResponse(
+            id: 0,
+            name: '',
+            email: '',
+            createdAt: '',
+            updatedAt: '',
+            verifyCode: '')));
+
+    final result = await getUserDataUseCase(const NoParameters());
+
+    result.fold(
+        (l) => emit(state.copyWith(
+            zakatState: RequestState.getUserDataError,
+            zakatMessage: l.message)),
+        (r) => emit(state.copyWith(
+              getUserData: r,
+              zakatState: RequestState.getUserDataLoaded,
             )));
   }
 }

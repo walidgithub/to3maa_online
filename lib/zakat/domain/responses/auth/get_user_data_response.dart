@@ -1,5 +1,5 @@
-class GetUserDataResponse {
-  GetUserDataResponse({
+class UserDataResponse {
+  const UserDataResponse({
     required this.id,
     required this.name,
     required this.email,
@@ -8,22 +8,23 @@ class GetUserDataResponse {
     required this.updatedAt,
     required this.verifyCode,
   });
-  late final int id;
-  late final String name;
-  late final String email;
-  late final Null emailVerifiedAt;
-  late final String createdAt;
-  late final String updatedAt;
-  late final String verifyCode;
+  final int id;
+  final String name;
+  final String email;
+  final Null emailVerifiedAt;
+  final String createdAt;
+  final String updatedAt;
+  final String verifyCode;
 
-  GetUserDataResponse.fromJson(Map<String, dynamic> json){
-    id = json['id'];
-    name = json['name'];
-    email = json['email'];
-    emailVerifiedAt = null;
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
-    verifyCode = json['verify_code'];
+  factory UserDataResponse.fromJson(Map<String, dynamic> json) {
+    return UserDataResponse(
+        id : json['id'],
+        name : json['name'],
+        email : json['email'],
+        emailVerifiedAt : null,
+        createdAt : json['created_at'],
+        updatedAt : json['updated_at'],
+        verifyCode : json['verify_code']);
   }
 
   Map<String, dynamic> toJson() {

@@ -1,4 +1,5 @@
 import 'package:To3maa/zakat/domain/requests/get_product_data_request.dart';
+import 'package:To3maa/zakat/domain/responses/auth/get_user_data_response.dart';
 import 'package:To3maa/zakat/domain/responses/product_data_response.dart';
 import 'package:dartz/dartz.dart';
 import 'package:To3maa/core/error/error_handler.dart';
@@ -177,6 +178,16 @@ class ZakatRepository extends BaseRepository {
     try {
       final result =
           await _baseDataSource.updateProductData(updateProductRequest);
+      return Right(result);
+    } catch (error) {
+      return Left(ErrorHandler.handle(error).failure);
+    }
+  }
+
+  @override
+  Future<Either<Failure, UserDataResponse>> getUserData() async {
+    try {
+      final result = await _baseDataSource.getUserData();
       return Right(result);
     } catch (error) {
       return Left(ErrorHandler.handle(error).failure);

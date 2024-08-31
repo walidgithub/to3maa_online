@@ -2,6 +2,7 @@ import 'package:To3maa/zakat/data/data_source/zakat_datasource.dart';
 import 'package:To3maa/zakat/data/repository/zakat_repository.dart';
 import 'package:To3maa/zakat/domain/repository/base_repository.dart';
 import 'package:To3maa/zakat/domain/requests/get_product_data_request.dart';
+import 'package:To3maa/zakat/domain/use_cases/zakat_usecase/auth/get_user_data_usecase.dart';
 import 'package:To3maa/zakat/domain/use_cases/zakat_usecase/delete_all_zakat_usecase.dart';
 import 'package:To3maa/zakat/domain/use_cases/zakat_usecase/delete_product_usecase.dart';
 import 'package:To3maa/zakat/domain/use_cases/zakat_usecase/delete_zakat_usecase.dart';
@@ -40,7 +41,7 @@ class ServiceLocator {
 
     // Cubit
     sl.registerFactory(() => ZakatCubit(sl(), sl(), sl(), sl(), sl(), sl(),
-        sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl()));
+        sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl()));
 
     // Use Cases
     sl.registerLazySingleton<LoginUseCase>(
@@ -60,6 +61,9 @@ class ServiceLocator {
 
     sl.registerLazySingleton<DeleteAllZakatUseCase>(
         () => DeleteAllZakatUseCase(sl()));
+
+    sl.registerLazySingleton<GetUserDataUseCase>(
+            () => GetUserDataUseCase(sl()));
 
     sl.registerLazySingleton<GetAllProductsUseCase>(
         () => GetAllProductsUseCase(sl()));

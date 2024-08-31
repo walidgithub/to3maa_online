@@ -5,6 +5,7 @@ import 'package:To3maa/zakat/domain/requests/get_zakat_products_by_zakat_id_requ
 import 'package:To3maa/zakat/domain/requests/insert_product_request.dart';
 import 'package:To3maa/zakat/domain/requests/insert_zakat_request.dart';
 import 'package:To3maa/zakat/domain/requests/update_product_request.dart';
+import 'package:To3maa/zakat/domain/responses/auth/get_user_data_response.dart';
 import 'package:To3maa/zakat/domain/responses/product_data_response.dart';
 import 'package:To3maa/zakat/domain/responses/products_response.dart';
 import 'package:To3maa/zakat/domain/responses/zakat_products_by_kilos_response.dart';
@@ -33,6 +34,8 @@ abstract class BaseDataSource {
   Future<void> deleteAllZakatData();
 
   Future<void> deleteProductData(DeleteProductRequest deleteProductRequest);
+
+  Future<UserDataResponse> getUserData();
 
   Future<List<ProductsResponse>> getAllProducts();
 
@@ -114,6 +117,24 @@ class ZakatDataSource extends BaseDataSource {
           '${ApiConstants.baseUrl}api/zakat/${deleteZakatRequest.id}',
           body: deleteZakatRequest.toJson(),
           headers: {'Authorization': 'Bearer ${ApiConstants.token}'});
+    } catch (e) {
+      throw e.toString();
+    }
+  }
+
+  @override
+  Future<UserDataResponse> getUserData() async {
+    var res;
+    try {
+      return await _dio.get('api/users',
+          headers: {
+            'Authorization': 'Bearer ${ApiConstants.token}'
+          }).then((response) {
+        res = (response.data['result'] as List).map((e) {
+          return UserDataResponse.fromJson(e);
+        });
+        return res;
+      });
     } catch (e) {
       throw e.toString();
     }

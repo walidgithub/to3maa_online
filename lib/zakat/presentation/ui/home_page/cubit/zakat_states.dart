@@ -6,12 +6,15 @@ import 'package:To3maa/zakat/domain/responses/zakat_products_by_kilos_response.d
 import 'package:To3maa/zakat/domain/responses/zakat_products_response.dart';
 import 'package:To3maa/zakat/domain/responses/zakat_response.dart';
 
+import '../../../../domain/responses/auth/get_user_data_response.dart';
+
 class ZakatState extends Equatable {
   final List<ProductsResponse> productsList;
   final List<ZakatResponse> zakatList;
   final List<ZakatProductsByKilosResponse> zakatProductsByKiloList;
   final List<ZakatProductsResponse> zakatProductsByZakatIdList;
   final ProductDataResponse getProductData;
+  final UserDataResponse getUserData;
   final RequestState zakatState;
   final String zakatMessage;
 
@@ -31,6 +34,7 @@ class ZakatState extends Equatable {
         sa3Weight: 0,
         createdAt: '',
         updatedAt: ''),
+    this.getUserData = const UserDataResponse(id: 0, name: '', email: '', createdAt: '', updatedAt: '', verifyCode: ''),
     this.zakatState = RequestState.initialState,
     this.zakatMessage = '',
   });
@@ -41,6 +45,7 @@ class ZakatState extends Equatable {
     List<ZakatProductsByKilosResponse>? zakatProductsByKiloList,
     List<ZakatProductsResponse>? zakatProductsByZakatIdList,
     ProductDataResponse? getProductData,
+    UserDataResponse? getUserData,
     RequestState? zakatState,
     String? zakatMessage,
   }) {
@@ -52,6 +57,7 @@ class ZakatState extends Equatable {
       zakatProductsByZakatIdList:
           zakatProductsByZakatIdList ?? this.zakatProductsByZakatIdList,
       getProductData: getProductData ?? this.getProductData,
+      getUserData: getUserData ?? this.getUserData,
       zakatState: zakatState ?? this.zakatState,
       zakatMessage: zakatMessage ?? this.zakatMessage,
     );
@@ -64,6 +70,7 @@ class ZakatState extends Equatable {
         zakatProductsByKiloList,
         zakatProductsByZakatIdList,
         getProductData,
+    getUserData,
         zakatState,
         zakatMessage
       ];
