@@ -1,0 +1,70 @@
+import 'package:To3maa/zakat/domain/responses/product_data_response.dart';
+import 'package:equatable/equatable.dart';
+import 'package:To3maa/core/utils/enums.dart';
+import 'package:To3maa/zakat/domain/responses/products_response.dart';
+import 'package:To3maa/zakat/domain/responses/zakat_products_by_kilos_response.dart';
+import 'package:To3maa/zakat/domain/responses/zakat_products_response.dart';
+import 'package:To3maa/zakat/domain/responses/zakat_response.dart';
+
+class ZakatState extends Equatable {
+  final List<ProductsResponse> productsList;
+  final List<ZakatResponse> zakatList;
+  final List<ZakatProductsByKilosResponse> zakatProductsByKiloList;
+  final List<ZakatProductsResponse> zakatProductsByZakatIdList;
+  final ProductDataResponse getProductData;
+  final RequestState zakatState;
+  final String zakatMessage;
+
+  const ZakatState({
+    this.productsList = const [],
+    this.zakatList = const [],
+    this.zakatProductsByKiloList = const [],
+    this.zakatProductsByZakatIdList = const [],
+    this.getProductData = const ProductDataResponse(
+        id: 0,
+        userId: 0,
+        productName: '',
+        productPrice: '',
+        productDesc: '',
+        productImage: '',
+        productQuantity: 0,
+        sa3Weight: 0,
+        createdAt: '',
+        updatedAt: ''),
+    this.zakatState = RequestState.initialState,
+    this.zakatMessage = '',
+  });
+
+  ZakatState copyWith({
+    List<ProductsResponse>? productsList,
+    List<ZakatResponse>? zakatList,
+    List<ZakatProductsByKilosResponse>? zakatProductsByKiloList,
+    List<ZakatProductsResponse>? zakatProductsByZakatIdList,
+    ProductDataResponse? getProductData,
+    RequestState? zakatState,
+    String? zakatMessage,
+  }) {
+    return ZakatState(
+      productsList: productsList ?? this.productsList,
+      zakatList: zakatList ?? this.zakatList,
+      zakatProductsByKiloList:
+          zakatProductsByKiloList ?? this.zakatProductsByKiloList,
+      zakatProductsByZakatIdList:
+          zakatProductsByZakatIdList ?? this.zakatProductsByZakatIdList,
+      getProductData: getProductData ?? this.getProductData,
+      zakatState: zakatState ?? this.zakatState,
+      zakatMessage: zakatMessage ?? this.zakatMessage,
+    );
+  }
+
+  @override
+  List<Object?> get props => [
+        productsList,
+        zakatList,
+        zakatProductsByKiloList,
+        zakatProductsByZakatIdList,
+        getProductData,
+        zakatState,
+        zakatMessage
+      ];
+}
