@@ -55,11 +55,12 @@ class AppStrings {
   static const String enterPass6Characters = "كـلـمـة الـمـرور لابـد أن تـكـون 6 خـانـات";
   static const String confirmPassword = "تـأكـد مـن أن تـكـون نـفـس كـلـمـة الـمـرور كـلـمـة الـمـرور";
   static const String validPass = "كـلـمـة الـمـرور لابـد أن تـكـون عـلـى الأقـل حـرف واحـد كـبـيـر وواحـد صـغـيـر ورقـم";
-  static const String forgotPass = "نـسـيـت كـلـمـة الـمـرور؟";
+  static const String forgotPassQ = "نـسـيـت كـلـمـة الـمـرور؟";
   static const String enterYourEmail = "مـن فـضـلـك أدخـل بـريـدك الإلـكـتـرونـى";
   static const String sendEmail = "سـوف نـقـوم بـإرسـال رسـالـة لبـريـدك الإلـكـتـرونـى";
   static const String verifyEmail = "سـوف نـقـوم بـإرسـال رسـالـة لبـريـدك الإلـكـتـرونـى";
   static const String checkEmail = "الـتـحـقـق مـن البريد الإلـكـتـرونـى";
+  static const String forgotPass = "نـسـيـت كـلـمـة الـمـرور";
   static const String confirm = "تـأكـيـد";
   static const String resetPassword = "إعـادة تـعـيـيـن كـلـمـة الـمـرور";
   static const String verificationCode = "كـود الـتـفـعـيـل";
@@ -78,6 +79,7 @@ class AppStrings {
   static const String closeApp = 'هـل تـريـد الـخـروج مـن الـتـطـبـيـق؟';
   static const String deleteAllData = 'هل تريد حـذف كـل مـا فـى الـعـربـة؟';
   static const String checkToDelete = 'هل أنـت مـتـأكـد مـن الـحـذف؟';
+  static const String fakeOTP = 'خـطـأ فـى إدخـال الـرمـز';
 
   // error handler
   static const String success = "success";

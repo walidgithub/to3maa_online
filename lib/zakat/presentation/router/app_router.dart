@@ -1,3 +1,4 @@
+import 'package:To3maa/zakat/presentation/router/arguments.dart';
 import 'package:To3maa/zakat/presentation/ui/auth/reset_password.dart';
 import 'package:flutter/material.dart';
 import 'package:To3maa/zakat/presentation/ui/home_page/home_page_view.dart';
@@ -28,11 +29,11 @@ class RouteGenerator {
       case Routes.emailCheckRoute:
         return MaterialPageRoute(builder: (_) => const EmailCheck());
       case Routes.verificationCodeRoute:
-        return MaterialPageRoute(builder: (_) => const VerificationCode());
+        return MaterialPageRoute(
+            builder: (_) => VerificationCode(
+                arguments: settings.arguments as VerificationCodeArguments));
       case Routes.resetPasswordRoute:
         return MaterialPageRoute(builder: (_) => const ResetPassword());
-      // case Routes.surahRoute:
-      //   return MaterialPageRoute(builder: (_) => SurahView(initialPage: settings.arguments as GoToPage));
       default:
         return unDefinedRoute();
     }

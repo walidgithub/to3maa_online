@@ -9,6 +9,8 @@ import 'package:To3maa/zakat/domain/requests/insert_product_request.dart';
 import 'package:To3maa/zakat/domain/requests/insert_zakat_products_request.dart';
 import 'package:To3maa/zakat/domain/requests/insert_zakat_request.dart';
 import 'package:To3maa/zakat/domain/requests/update_product_request.dart';
+import 'package:To3maa/zakat/domain/responses/auth/login_response.dart';
+import 'package:To3maa/zakat/domain/responses/auth/register_response.dart';
 import 'package:To3maa/zakat/domain/use_cases/base_usecase/base_usecase.dart';
 import 'package:To3maa/zakat/domain/use_cases/zakat_usecase/delete_all_zakat_usecase.dart';
 import 'package:To3maa/zakat/domain/use_cases/zakat_usecase/delete_product_usecase.dart';
@@ -25,12 +27,16 @@ import 'package:To3maa/zakat/presentation/ui/home_page/cubit/zakat_states.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../domain/requests/auth/login_request.dart';
 import '../../../../domain/requests/auth/register_request.dart';
+import '../../../../domain/requests/auth/forgot_password_request.dart';
+import '../../../../domain/responses/auth/forgot_password_response.dart';
 import '../../../../domain/responses/auth/get_user_data_response.dart';
 import '../../../../domain/responses/product_data_response.dart';
+import '../../../../domain/use_cases/zakat_usecase/auth/check_mail_usecase.dart';
 import '../../../../domain/use_cases/zakat_usecase/auth/get_user_data_usecase.dart';
 import '../../../../domain/use_cases/zakat_usecase/auth/login_usecase.dart';
 import '../../../../domain/use_cases/zakat_usecase/auth/logout_usecase.dart';
 import '../../../../domain/use_cases/zakat_usecase/auth/register_usecase.dart';
+import '../../../../domain/use_cases/zakat_usecase/auth/reset_password_usecase.dart';
 
 class ZakatCubit extends Cubit<ZakatState> {
   final LoginUseCase loginUseCase;
@@ -48,6 +54,8 @@ class ZakatCubit extends Cubit<ZakatState> {
   final InsertProductUseCase insertProductUseCase;
   final InsertZakatUseCase insertZakatUseCase;
   final UpdateProductUseCase updateProductUseCase;
+  final CheckMailUseCase checkMailUseCase;
+  final ResetPassUseCase resetPassUseCase;
 
   ZakatCubit(
     this.loginUseCase,
@@ -65,6 +73,8 @@ class ZakatCubit extends Cubit<ZakatState> {
     this.insertProductUseCase,
     this.insertZakatUseCase,
     this.updateProductUseCase,
+    this.checkMailUseCase,
+    this.resetPassUseCase,
   ) : super(const ZakatState());
 
   static ZakatCubit get(context) => BlocProvider.of(context);
@@ -72,7 +82,19 @@ class ZakatCubit extends Cubit<ZakatState> {
   // auth ----------------------------------------------------------
   FutureOr<void> register(RegisterRequest registerRequest) async {
     emit(state.copyWith(
-        zakatState: RequestState.registerLoading, zakatMessage: ''));
+        zakatState: RequestState.registerLoading,
+        zakatMessage: '',
+        registerData: const RegisterResponse(
+            message: '',
+            status: false,
+            token: '',
+            user: UserDataResponse(
+                id: 0,
+                name: '',
+                email: '',
+                createdAt: '',
+                updatedAt: '',
+                verifyCode: ''))));
 
     final result = await registerUseCase(registerRequest);
 
@@ -80,13 +102,26 @@ class ZakatCubit extends Cubit<ZakatState> {
         (l) => emit(state.copyWith(
             zakatState: RequestState.registerError, zakatMessage: l.message)),
         (r) => emit(state.copyWith(
+              registerData: r,
               zakatState: RequestState.registerDone,
             )));
   }
 
   FutureOr<void> login(LoginRequest loginRequest) async {
     emit(state.copyWith(
-        zakatState: RequestState.loginLoading, zakatMessage: ''));
+        zakatState: RequestState.loginLoading,
+        zakatMessage: '',
+        loginData: const LoginResponse(
+            message: '',
+            status: false,
+            token: '',
+            user: UserDataResponse(
+                id: 0,
+                name: '',
+                email: '',
+                createdAt: '',
+                updatedAt: '',
+                verifyCode: ''))));
 
     final result = await loginUseCase(loginRequest);
 
@@ -94,6 +129,7 @@ class ZakatCubit extends Cubit<ZakatState> {
         (l) => emit(state.copyWith(
             zakatState: RequestState.loginError, zakatMessage: l.message)),
         (r) => emit(state.copyWith(
+              loginData: r,
               zakatState: RequestState.loginDone,
             )));
   }
@@ -149,6 +185,46 @@ class ZakatCubit extends Cubit<ZakatState> {
         zakatState: RequestState.updateLoading, zakatMessage: ''));
 
     final result = await updateProductUseCase(updateProductRequest);
+
+    result.fold(
+        (l) => emit(state.copyWith(
+            zakatState: RequestState.updateError, zakatMessage: l.message)),
+        (r) => emit(state.copyWith(
+              zakatState: RequestState.updateDone,
+            )));
+  }
+
+  FutureOr<void> checkMail(ForgotPassRequest forgotPassRequest) async {
+    emit(state.copyWith(
+        zakatState: RequestState.updateLoading,
+        zakatMessage: '',
+        forgotPasswordData: const ForgotPasswordResponse(
+            status: false,
+            user: UserDataResponse(
+                id: 0,
+                name: '',
+                email: '',
+                createdAt: '',
+                updatedAt: '',
+                verifyCode: ''),
+            message: '')));
+
+    final result = await checkMailUseCase(forgotPassRequest);
+
+    result.fold(
+        (l) => emit(state.copyWith(
+            zakatState: RequestState.updateError, zakatMessage: l.message)),
+        (r) => emit(state.copyWith(
+              forgotPasswordData: r,
+              zakatState: RequestState.updateDone,
+            )));
+  }
+
+  FutureOr<void> resetPass(ForgotPassRequest forgotPassRequest) async {
+    emit(state.copyWith(
+        zakatState: RequestState.updateLoading, zakatMessage: ''));
+
+    final result = await resetPassUseCase(forgotPassRequest);
 
     result.fold(
         (l) => emit(state.copyWith(

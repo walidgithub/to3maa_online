@@ -1,6 +1,10 @@
+import 'package:To3maa/zakat/domain/requests/auth/reset_password_request.dart';
 import 'package:To3maa/zakat/domain/requests/get_product_data_request.dart';
 import 'package:To3maa/zakat/domain/responses/auth/get_user_data_response.dart';
+import 'package:To3maa/zakat/domain/responses/auth/login_response.dart';
+import 'package:To3maa/zakat/domain/responses/auth/register_response.dart';
 import 'package:To3maa/zakat/domain/responses/product_data_response.dart';
+import 'package:To3maa/zakat/presentation/ui/auth/reset_password.dart';
 import 'package:dartz/dartz.dart';
 import 'package:To3maa/core/error/failure.dart';
 import 'package:To3maa/zakat/domain/requests/delete_product_request.dart';
@@ -16,11 +20,13 @@ import 'package:To3maa/zakat/domain/responses/zakat_response.dart';
 
 import '../requests/auth/login_request.dart';
 import '../requests/auth/register_request.dart';
+import '../requests/auth/forgot_password_request.dart';
+import '../responses/auth/forgot_password_response.dart';
 
 abstract class BaseRepository {
-  Future<Either<Failure, void>> register(
+  Future<Either<Failure, RegisterResponse>> register(
       RegisterRequest registerRequest);
-  Future<Either<Failure, void>> login(
+  Future<Either<Failure, LoginResponse>> login(
       LoginRequest loginRequest);
   Future<Either<Failure, void>> logout();
 
@@ -31,6 +37,10 @@ abstract class BaseRepository {
 
   Future<Either<Failure, void>> updateProductData(
       UpdateProductRequest updateProductRequest);
+  Future<Either<Failure, ForgotPasswordResponse>> checkEmail(
+      ForgotPassRequest forgotPassRequest);
+  Future<Either<Failure, void>> resetPass(
+      ResetPassRequest resetPassRequest);
 
   Future<Either<Failure, void>> deleteZakatData(
       DeleteZakatRequest deleteZakatRequest);

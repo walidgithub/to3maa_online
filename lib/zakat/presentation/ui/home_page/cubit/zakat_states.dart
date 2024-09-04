@@ -1,3 +1,6 @@
+import 'package:To3maa/zakat/domain/responses/auth/forgot_password_response.dart';
+import 'package:To3maa/zakat/domain/responses/auth/login_response.dart';
+import 'package:To3maa/zakat/domain/responses/auth/register_response.dart';
 import 'package:To3maa/zakat/domain/responses/product_data_response.dart';
 import 'package:equatable/equatable.dart';
 import 'package:To3maa/core/utils/enums.dart';
@@ -15,6 +18,9 @@ class ZakatState extends Equatable {
   final List<ZakatProductsResponse> zakatProductsByZakatIdList;
   final ProductDataResponse getProductData;
   final UserDataResponse getUserData;
+  final RegisterResponse registerData;
+  final LoginResponse loginData;
+  final ForgotPasswordResponse forgotPasswordData;
   final RequestState zakatState;
   final String zakatMessage;
 
@@ -35,6 +41,9 @@ class ZakatState extends Equatable {
         createdAt: '',
         updatedAt: ''),
     this.getUserData = const UserDataResponse(id: 0, name: '', email: '', createdAt: '', updatedAt: '', verifyCode: ''),
+    this.registerData = const RegisterResponse(message: '',status: false,token: '',user: UserDataResponse(id: 0, name: '', email: '', createdAt: '', updatedAt: '', verifyCode: '')),
+    this.loginData = const LoginResponse(message: '',status: false,token: '',user: UserDataResponse(id: 0, name: '', email: '', createdAt: '', updatedAt: '', verifyCode: '')),
+    this.forgotPasswordData = const ForgotPasswordResponse(status: false, user: UserDataResponse(id: 0, name: '', email: '', createdAt: '', updatedAt: '', verifyCode: ''), message: ''),
     this.zakatState = RequestState.initialState,
     this.zakatMessage = '',
   });
@@ -46,8 +55,11 @@ class ZakatState extends Equatable {
     List<ZakatProductsResponse>? zakatProductsByZakatIdList,
     ProductDataResponse? getProductData,
     UserDataResponse? getUserData,
+    RegisterResponse? registerData,
+    LoginResponse? loginData,
     RequestState? zakatState,
     String? zakatMessage,
+    ForgotPasswordResponse? forgotPasswordData,
   }) {
     return ZakatState(
       productsList: productsList ?? this.productsList,
@@ -58,6 +70,9 @@ class ZakatState extends Equatable {
           zakatProductsByZakatIdList ?? this.zakatProductsByZakatIdList,
       getProductData: getProductData ?? this.getProductData,
       getUserData: getUserData ?? this.getUserData,
+      registerData: registerData ?? this.registerData,
+      loginData: loginData ?? this.loginData,
+      forgotPasswordData: forgotPasswordData ?? this.forgotPasswordData,
       zakatState: zakatState ?? this.zakatState,
       zakatMessage: zakatMessage ?? this.zakatMessage,
     );
@@ -71,6 +86,9 @@ class ZakatState extends Equatable {
         zakatProductsByZakatIdList,
         getProductData,
     getUserData,
+    registerData,
+    loginData,
+    forgotPasswordData,
         zakatState,
         zakatMessage
       ];

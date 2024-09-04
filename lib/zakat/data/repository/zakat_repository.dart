@@ -1,6 +1,11 @@
+import 'package:To3maa/zakat/domain/requests/auth/reset_password_request.dart';
 import 'package:To3maa/zakat/domain/requests/get_product_data_request.dart';
+import 'package:To3maa/zakat/domain/responses/auth/forgot_password_response.dart';
 import 'package:To3maa/zakat/domain/responses/auth/get_user_data_response.dart';
+import 'package:To3maa/zakat/domain/responses/auth/login_response.dart';
+import 'package:To3maa/zakat/domain/responses/auth/register_response.dart';
 import 'package:To3maa/zakat/domain/responses/product_data_response.dart';
+import 'package:To3maa/zakat/presentation/ui/auth/reset_password.dart';
 import 'package:dartz/dartz.dart';
 import 'package:To3maa/core/error/error_handler.dart';
 import 'package:To3maa/core/error/failure.dart';
@@ -18,6 +23,7 @@ import 'package:To3maa/zakat/domain/responses/zakat_products_response.dart';
 import 'package:To3maa/zakat/domain/responses/zakat_response.dart';
 import '../../domain/requests/auth/login_request.dart';
 import '../../domain/requests/auth/register_request.dart';
+import '../../domain/requests/auth/forgot_password_request.dart';
 
 class ZakatRepository extends BaseRepository {
   final BaseDataSource _baseDataSource;
@@ -26,7 +32,7 @@ class ZakatRepository extends BaseRepository {
     this._baseDataSource,
   );
   @override
-  Future<Either<Failure, void>> register(
+  Future<Either<Failure, RegisterResponse>> register(
       RegisterRequest registerRequest) async {
     try {
       final result =
@@ -38,7 +44,7 @@ class ZakatRepository extends BaseRepository {
   }
 
   @override
-  Future<Either<Failure, void>> login(
+  Future<Either<Failure, LoginResponse>> login(
       LoginRequest loginRequest) async {
     try {
       final result =
@@ -178,6 +184,30 @@ class ZakatRepository extends BaseRepository {
     try {
       final result =
           await _baseDataSource.updateProductData(updateProductRequest);
+      return Right(result);
+    } catch (error) {
+      return Left(ErrorHandler.handle(error).failure);
+    }
+  }
+
+  @override
+  Future<Either<Failure, ForgotPasswordResponse>> checkEmail(
+      ForgotPassRequest forgotPassRequest) async {
+    try {
+      final result =
+      await _baseDataSource.checkEmail(forgotPassRequest);
+      return Right(result);
+    } catch (error) {
+      return Left(ErrorHandler.handle(error).failure);
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> resetPass(
+      ResetPassRequest resetPassRequest) async {
+    try {
+      final result =
+      await _baseDataSource.resetPass(resetPassRequest);
       return Right(result);
     } catch (error) {
       return Left(ErrorHandler.handle(error).failure);

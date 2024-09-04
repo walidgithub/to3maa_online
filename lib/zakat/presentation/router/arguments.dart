@@ -1,7 +1,9 @@
-class GoToPage {
-  int? pageNum;
+class VerificationCodeArguments {
+  String? pageName;
+  String? verifyCode;
 
-  GoToPage({
-    this.pageNum,
+  VerificationCodeArguments({
+    this.pageName,
+    this.verifyCode,
   });
 }

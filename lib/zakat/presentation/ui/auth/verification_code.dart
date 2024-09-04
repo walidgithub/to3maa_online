@@ -1,3 +1,4 @@
+import 'package:To3maa/zakat/presentation/router/arguments.dart';
 import 'package:To3maa/zakat/presentation/shared/constant/app_assets.dart';
 import 'package:To3maa/zakat/presentation/shared/constant/app_strings.dart';
 import 'package:To3maa/zakat/presentation/shared/style/app_colors.dart';
@@ -11,13 +12,18 @@ import '../../shared/constant/app_typography.dart';
 import '../home_page/widgets/primary_button.dart';
 
 class VerificationCode extends StatefulWidget {
-  const VerificationCode({super.key});
+  VerificationCodeArguments arguments;
+
+  VerificationCode({super.key, required this.arguments});
 
   @override
   State<VerificationCode> createState() => _VerificationCodeState();
 }
 
 class _VerificationCodeState extends State<VerificationCode> {
+
+  String verificationCode = '';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,8 +38,7 @@ class _VerificationCodeState extends State<VerificationCode> {
               SizedBox(height: AppConstants.heightBetweenElements),
               Text(
                 AppStrings.verificationCode,
-                style: AppTypography.kBold36
-                    .copyWith(color: AppColors.cNumber),
+                style: AppTypography.kBold36.copyWith(color: AppColors.cNumber),
               ),
               SizedBox(height: 40.h),
               OtpTextField(
@@ -45,25 +50,45 @@ class _VerificationCodeState extends State<VerificationCode> {
                 showFieldAsBox: true,
                 onCodeChanged: (String code) {},
                 onSubmit: (String verificationCode) {
+                  verificationCode = verificationCode;
                   showDialog(
                       context: context,
                       builder: (context) {
                         return AlertDialog(
-                          title: Text(
-                            AppStrings.verificationCode,
-                            style: AppTypography.kLight14
-                                .copyWith(color: AppColors.cBlack),
-                          ),
-                          content: Text('${AppStrings.verificationCodeIs} $verificationCode',style: AppTypography.kLight14
-                              .copyWith(color: AppColors.cBlack),)
-                        );
+                            title: Text(
+                              AppStrings.verificationCode,
+                              style: AppTypography.kLight14
+                                  .copyWith(color: AppColors.cBlack),
+                            ),
+                            content: Text(
+                              '${AppStrings.verificationCodeIs} $verificationCode',
+                              style: AppTypography.kLight14
+                                  .copyWith(color: AppColors.cBlack),
+                            ));
                       });
                 }, // end onSubmit
               ),
               SizedBox(height: 30.h),
-              PrimaryButton(onTap: () {
-                Navigator.of(context).pushReplacementNamed(Routes.resetPasswordRoute);
-              }, text: AppStrings.confirm)
+              PrimaryButton(
+                  onTap: () {
+                    if (widget.arguments.verifyCode == verificationCode) {
+                      if (widget.arguments.pageName == 'EmailCheck') {
+                        Navigator.of(context)
+                            .pushReplacementNamed(Routes.resetPasswordRoute);
+                      } else if (widget.arguments.pageName == 'Register') {
+                        Navigator.of(context)
+                            .pushReplacementNamed(Routes.homeRoute);
+                      }
+                    } else {
+                      final snackBar = SnackBar(
+                        duration:
+                        Duration(milliseconds: AppConstants.durationOfSnackBar),
+                        content: const Text(AppStrings.fakeOTP),
+                      );
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    }
+                  },
+                  text: AppStrings.confirm)
             ],
           ),
         ),

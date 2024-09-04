@@ -1,3 +1,4 @@
+import 'package:To3maa/zakat/domain/responses/auth/login_response.dart';
 import 'package:dartz/dartz.dart';
 import 'package:To3maa/core/error/failure.dart';
 import 'package:To3maa/zakat/domain/repository/base_repository.dart';
@@ -9,7 +10,7 @@ class LoginUseCase extends BaseUsecase {
   LoginUseCase(this.baseRepository);
 
   @override
-  Future<Either<Failure, void>> call(parameters) async {
+  Future<Either<Failure, LoginResponse>> call(parameters) async {
     return await baseRepository.login(parameters);
   }
 }

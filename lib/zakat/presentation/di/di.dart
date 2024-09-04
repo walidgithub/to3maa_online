@@ -3,6 +3,7 @@ import 'package:To3maa/zakat/data/repository/zakat_repository.dart';
 import 'package:To3maa/zakat/domain/repository/base_repository.dart';
 import 'package:To3maa/zakat/domain/requests/get_product_data_request.dart';
 import 'package:To3maa/zakat/domain/use_cases/zakat_usecase/auth/get_user_data_usecase.dart';
+import 'package:To3maa/zakat/domain/use_cases/zakat_usecase/auth/reset_password_usecase.dart';
 import 'package:To3maa/zakat/domain/use_cases/zakat_usecase/delete_all_zakat_usecase.dart';
 import 'package:To3maa/zakat/domain/use_cases/zakat_usecase/delete_product_usecase.dart';
 import 'package:To3maa/zakat/domain/use_cases/zakat_usecase/delete_zakat_usecase.dart';
@@ -23,6 +24,7 @@ import '../../../core/network/network_info.dart';
 import '../../../core/preferences/app_pref.dart';
 import '../../domain/use_cases/zakat_usecase/auth/login_usecase.dart';
 import '../../domain/use_cases/zakat_usecase/auth/register_usecase.dart';
+import '../../domain/use_cases/zakat_usecase/auth/check_mail_usecase.dart';
 
 final sl = GetIt.instance;
 
@@ -41,7 +43,7 @@ class ServiceLocator {
 
     // Cubit
     sl.registerFactory(() => ZakatCubit(sl(), sl(), sl(), sl(), sl(), sl(),
-        sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl()));
+        sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl(), sl()));
 
     // Use Cases
     sl.registerLazySingleton<LoginUseCase>(
@@ -88,6 +90,12 @@ class ServiceLocator {
 
     sl.registerLazySingleton<UpdateProductUseCase>(
         () => UpdateProductUseCase(sl()));
+
+    sl.registerLazySingleton<CheckMailUseCase>(
+            () => CheckMailUseCase(sl()));
+
+    sl.registerLazySingleton<ResetPassUseCase>(
+            () => ResetPassUseCase(sl()));
 
     // Repositories
     sl.registerLazySingleton<BaseRepository>(() => ZakatRepository(sl()));
