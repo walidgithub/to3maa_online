@@ -90,7 +90,7 @@ class _MyAppState extends State<MyApp> {
               builder: EasyLoading.init(),
               onGenerateRoute: RouteGenerator.getRoute,
               // initialRoute: loggedIn ? Routes.homeRoute : Routes.signInRoute,
-              initialRoute: Routes.verificationCodeRoute,
+              initialRoute: Routes.homeRoute,
               theme: AppTheme.lightTheme);
         });
   }

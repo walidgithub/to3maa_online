@@ -61,6 +61,12 @@ class _TotalsViewState extends State<TotalsView> {
             } else if (state.zakatState ==
                 RequestState.getZakatProductsByKilosError) {
               hideLoading();
+              final snackBar = SnackBar(
+                duration:
+                Duration(milliseconds: AppConstants.durationOfSnackBar),
+                content: Text(state.zakatMessage),
+              );
+              ScaffoldMessenger.of(context).showSnackBar(snackBar);
             } else if (state.zakatState ==
                 RequestState.getZakatProductsByKilosLoaded) {
               zakatByKilos = state.zakatProductsByKiloList;

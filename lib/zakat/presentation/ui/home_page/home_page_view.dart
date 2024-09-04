@@ -1,3 +1,4 @@
+import 'package:To3maa/zakat/presentation/ui_components/loading_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:To3maa/core/utils/enums.dart';
@@ -19,6 +20,10 @@ import 'package:To3maa/zakat/presentation/ui/home_page/tabs/products/products_vi
 import 'package:To3maa/zakat/presentation/ui/home_page/tabs/totals/totals_view.dart';
 import 'package:To3maa/zakat/presentation/ui/home_page/widgets/tab_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
+
+import '../../../../core/preferences/app_pref.dart';
+import '../../router/app_router.dart';
 
 class HomePageView extends StatefulWidget {
   const HomePageView({super.key});
@@ -37,6 +42,8 @@ class _HomePageViewState extends State<HomePageView> {
     TabItems(
         title: AppStrings.products, activeTab: false, icon: AppAssets.products)
   ];
+
+  final AppPreferences _appPreferences = sl<AppPreferences>();
 
   int selectedTab = 0;
 
@@ -68,9 +75,33 @@ class _HomePageViewState extends State<HomePageView> {
     return BlocConsumer<ZakatCubit, ZakatState>(
         listener: (context, state) async {
       if (state.zakatState == RequestState.zakatLoading) {
+        showLoading();
       } else if (state.zakatState == RequestState.zakatError) {
+        hideLoading();
+        final snackBar = SnackBar(
+          duration:
+          Duration(milliseconds: AppConstants.durationOfSnackBar),
+          content: Text(state.zakatMessage),
+        );
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
       } else if (state.zakatState == RequestState.zakatLoaded) {
+        hideLoading();
         cartItems = state.zakatList;
+      } else if (state.zakatState == RequestState.logoutLoading) {
+        showLoading();
+      } else if (state.zakatState == RequestState.logoutError) {
+        hideLoading();
+        final snackBar = SnackBar(
+          duration:
+          Duration(milliseconds: AppConstants.durationOfSnackBar),
+          content: Text(state.zakatMessage),
+        );
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      } else if (state.zakatState == RequestState.logoutDone) {
+        hideLoading();
+        await _appPreferences.logout();
+        Navigator.of(context)
+            .pushReplacementNamed(Routes.signInRoute);
       }
     }, builder: (context, state) {
       return Stack(
@@ -117,16 +148,31 @@ class _HomePageViewState extends State<HomePageView> {
                     ),
                   ),
                   Expanded(
+                    child: SizedBox(
+                      height: 50.h,
+                      width: 40.w,
+                      child: GestureDetector(
+                        onTap: () async {
+                          await ZakatCubit.get(context).logout();
+                        },
+                        child: SvgPicture.asset(
+                          AppAssets.logout,
+                          width: 35.w,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Expanded(
                     child: Container(
                       padding:
-                          EdgeInsets.symmetric(horizontal: 0, vertical: 30.h),
+                      EdgeInsets.symmetric(horizontal: 0, vertical: 30.h),
                       child: ListView.separated(
                         itemCount: tabItems.length,
                         shrinkWrap: false,
                         separatorBuilder: (BuildContext context, int index) =>
                             SizedBox(
-                          height: 40.h,
-                        ),
+                              height: 40.h,
+                            ),
                         itemBuilder: (BuildContext context, int index) {
                           return TabBarWidget(
                             title: tabItems[index].title!,
@@ -148,6 +194,7 @@ class _HomePageViewState extends State<HomePageView> {
                       ),
                     ),
                   ),
+
                 ],
               ),
             ),

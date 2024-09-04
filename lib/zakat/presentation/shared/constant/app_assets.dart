@@ -7,6 +7,7 @@ class AppAssets {
   static const String totals = '$imagePath/totals.svg';
   static const String arrowUp = '$imagePath/arrow_up.svg';
   static const String back = '$imagePath/back.svg';
+  static const String logout = '$imagePath/logout.svg';
   static const String dates = '$imagePath/dates.png';
   static const String raisins = '$imagePath/raisins.png';
   static const String rice = '$imagePath/rice.png';

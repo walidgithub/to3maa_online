@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/network/api_constants.dart';
+import '../../../../core/preferences/app_pref.dart';
 import '../../../../core/utils/enums.dart';
 import '../../../domain/requests/auth/login_request.dart';
 import '../../di/di.dart';
@@ -28,6 +29,7 @@ class SignInView extends StatefulWidget {
 }
 
 class _SignInViewState extends State<SignInView> {
+  final AppPreferences _appPreferences = sl<AppPreferences>();
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -43,7 +45,7 @@ class _SignInViewState extends State<SignInView> {
           child: BlocProvider(
               create: (context) => sl<ZakatCubit>(),
               child: BlocConsumer<ZakatCubit, ZakatState>(
-                  listener: (context, state) {
+                  listener: (context, state) async {
                 if (state.zakatState == RequestState.loginLoading) {
                   showLoading();
                 } else if (state.zakatState == RequestState.loginError) {
@@ -57,6 +59,7 @@ class _SignInViewState extends State<SignInView> {
                 } else if (state.zakatState == RequestState.loginDone) {
                   hideLoading();
                   ApiConstants.setToken = state.loginData.token;
+                  await _appPreferences.setUserLoggedIn();
                   Navigator.of(context).pushReplacementNamed(Routes.homeRoute);
                 }
               }, builder: (context, state) {

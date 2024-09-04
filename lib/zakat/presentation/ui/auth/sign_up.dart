@@ -7,6 +7,7 @@ import 'package:To3maa/zakat/presentation/shared/style/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../../../core/network/api_constants.dart';
 import '../../../../core/utils/enums.dart';
 import '../../di/di.dart';
 import '../../router/app_router.dart';
@@ -59,6 +60,7 @@ class _SignUpViewState extends State<SignUpView> {
                   ScaffoldMessenger.of(context).showSnackBar(snackBar);
                 } else if (state.zakatState == RequestState.registerDone) {
                   hideLoading();
+                  ApiConstants.setToken = state.loginData.token;
                   Navigator.of(context)
                       .pushReplacementNamed(Routes.verificationCodeRoute, arguments: VerificationCodeArguments(pageName: 'Register', verifyCode: state.forgotPasswordData.user.verifyCode));
                 }

@@ -152,6 +152,12 @@ class _ProductsViewState extends State<ProductsView> {
                 showLoading();
               } else if (state.zakatState == RequestState.productsError) {
                 hideLoading();
+                final snackBar = SnackBar(
+                  duration:
+                  Duration(milliseconds: AppConstants.durationOfSnackBar),
+                  content: Text(state.zakatMessage),
+                );
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
               } else if (state.zakatState == RequestState.productsLoaded) {
                 // products = state.productsList;
                 hideLoading();
@@ -159,6 +165,12 @@ class _ProductsViewState extends State<ProductsView> {
                 showLoading();
               } else if (state.zakatState == RequestState.deleteError) {
                 hideLoading();
+                final snackBar = SnackBar(
+                  duration:
+                  Duration(milliseconds: AppConstants.durationOfSnackBar),
+                  content: Text(state.zakatMessage),
+                );
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
               } else if (state.zakatState == RequestState.deleteDone) {
                 hideLoading();
                 final snackBar = SnackBar(
@@ -171,6 +183,12 @@ class _ProductsViewState extends State<ProductsView> {
                 showLoading();
               } else if (state.zakatState == RequestState.updateError) {
                 hideLoading();
+                final snackBar = SnackBar(
+                  duration:
+                  Duration(milliseconds: AppConstants.durationOfSnackBar),
+                  content: Text(state.zakatMessage),
+                );
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
               } else if (state.zakatState == RequestState.updateDone) {
                 hideLoading();
                 final snackBar = SnackBar(
@@ -376,6 +394,12 @@ class _ProductsViewState extends State<ProductsView> {
                 showLoading();
               } else if (state.zakatState == RequestState.insertError) {
                 hideLoading();
+                final snackBar = SnackBar(
+                  duration:
+                  Duration(milliseconds: AppConstants.durationOfSnackBar),
+                  content: Text(state.zakatMessage),
+                );
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
               } else if (state.zakatState == RequestState.insertDone) {
                 hideLoading();
                 final snackBar = SnackBar(
@@ -388,12 +412,24 @@ class _ProductsViewState extends State<ProductsView> {
                 showLoading();
               } else if (state.zakatState == RequestState.productsError) {
                 hideLoading();
+                final snackBar = SnackBar(
+                  duration:
+                  Duration(milliseconds: AppConstants.durationOfSnackBar),
+                  content: Text(state.zakatMessage),
+                );
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
               } else if (state.zakatState == RequestState.productsLoaded) {
                 hideLoading();
               } else if (state.zakatState == RequestState.updateLoading) {
                 showLoading();
               } else if (state.zakatState == RequestState.updateError) {
                 hideLoading();
+                final snackBar = SnackBar(
+                  duration:
+                  Duration(milliseconds: AppConstants.durationOfSnackBar),
+                  content: Text(state.zakatMessage),
+                );
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
               } else if (state.zakatState == RequestState.updateDone) {
                 hideLoading();
                 final snackBar = SnackBar(

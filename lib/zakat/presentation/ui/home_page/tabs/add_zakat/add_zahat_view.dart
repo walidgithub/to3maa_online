@@ -141,6 +141,12 @@ class _AddZakatViewState extends State<AddZakatView> {
               showLoading();
             } else if (state.zakatState == RequestState.productsError) {
               hideLoading();
+              final snackBar = SnackBar(
+                duration:
+                Duration(milliseconds: AppConstants.durationOfSnackBar),
+                content: Text(state.zakatMessage),
+              );
+              ScaffoldMessenger.of(context).showSnackBar(snackBar);
             } else if (state.zakatState == RequestState.productsLoaded) {
               remain = allValue - calcRemain(state.productsList);
               hideLoading();
@@ -148,6 +154,12 @@ class _AddZakatViewState extends State<AddZakatView> {
               showLoading();
             } else if (state.zakatState == RequestState.insertError) {
               hideLoading();
+              final snackBar = SnackBar(
+                duration:
+                Duration(milliseconds: AppConstants.durationOfSnackBar),
+                content: Text(state.zakatMessage),
+              );
+              ScaffoldMessenger.of(context).showSnackBar(snackBar);
             } else if (state.zakatState == RequestState.insertDone) {
               hideLoading();
               getAllZakat();
@@ -155,9 +167,15 @@ class _AddZakatViewState extends State<AddZakatView> {
               showLoading();
             } else if (state.zakatState == RequestState.zakatError) {
               hideLoading();
+              final snackBar = SnackBar(
+                duration:
+                Duration(milliseconds: AppConstants.durationOfSnackBar),
+                content: Text(state.zakatMessage),
+              );
+              ScaffoldMessenger.of(context).showSnackBar(snackBar);
             } else if (state.zakatState == RequestState.zakatLoaded) {
-              cartItems = state.zakatList;
               hideLoading();
+              cartItems = state.zakatList;
             }
           }, builder: (context, state) {
             return Column(

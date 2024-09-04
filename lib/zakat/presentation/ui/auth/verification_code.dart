@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../../../core/preferences/app_pref.dart';
+import '../../di/di.dart';
 import '../../router/app_router.dart';
 import '../../shared/constant/app_constants.dart';
 import '../../shared/constant/app_typography.dart';
@@ -21,7 +23,7 @@ class VerificationCode extends StatefulWidget {
 }
 
 class _VerificationCodeState extends State<VerificationCode> {
-
+  final AppPreferences _appPreferences = sl<AppPreferences>();
   String verificationCode = '';
 
   @override
@@ -70,12 +72,13 @@ class _VerificationCodeState extends State<VerificationCode> {
               ),
               SizedBox(height: 30.h),
               PrimaryButton(
-                  onTap: () {
+                  onTap: () async {
                     if (widget.arguments.verifyCode == verificationCode) {
                       if (widget.arguments.pageName == 'EmailCheck') {
                         Navigator.of(context)
                             .pushReplacementNamed(Routes.resetPasswordRoute);
                       } else if (widget.arguments.pageName == 'Register') {
+                        await _appPreferences.setUserLoggedIn();
                         Navigator.of(context)
                             .pushReplacementNamed(Routes.homeRoute);
                       }

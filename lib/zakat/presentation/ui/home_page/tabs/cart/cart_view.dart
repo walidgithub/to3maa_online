@@ -82,6 +82,11 @@ class _CartViewState extends State<CartView> {
             showLoading();
           } else if (state.zakatState == RequestState.zakatError) {
             hideLoading();
+            final snackBar = SnackBar(
+              duration: Duration(milliseconds: AppConstants.durationOfSnackBar),
+              content: Text(state.zakatMessage),
+            );
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
           } else if (state.zakatState == RequestState.zakatLoaded) {
             cartItems = state.zakatList;
             for (var x in state.zakatList) {
@@ -97,8 +102,22 @@ class _CartViewState extends State<CartView> {
             showLoading();
           } else if (state.zakatState == RequestState.deleteError) {
             hideLoading();
+            final snackBar = SnackBar(
+              duration: Duration(milliseconds: AppConstants.durationOfSnackBar),
+              content: Text(state.zakatMessage),
+            );
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
           } else if (state.zakatState == RequestState.deleteDone) {
             hideLoading();
+            final snackBar = SnackBar(
+              duration: Duration(milliseconds: AppConstants.durationOfSnackBar),
+              content: const Text(AppStrings.successDelete),
+            );
+            // ignore: use_build_context_synchronously
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
+            Navigator.of(context)
+                .pop(false);
           }
         }, builder: (context, state) {
           return Column(
@@ -169,26 +188,8 @@ class _CartViewState extends State<CartView> {
                                                             cartItems[index].id,
                                                       );
 
-                                                      final snackBar = SnackBar(
-                                                        duration: Duration(
-                                                            milliseconds:
-                                                                AppConstants
-                                                                    .durationOfSnackBar),
-                                                        content: const Text(
-                                                            AppStrings
-                                                                .successDelete),
-                                                      );
-                                                      // ignore: use_build_context_synchronously
-                                                      ScaffoldMessenger.of(
-                                                              cartContext)
-                                                          .showSnackBar(
-                                                              snackBar);
-
                                                       await getAllZakat();
                                                       setState(() {});
-
-                                                      Navigator.of(context)
-                                                          .pop(false);
                                                     },
                                                     child: Text(AppStrings.yes,
                                                         style: AppTypography

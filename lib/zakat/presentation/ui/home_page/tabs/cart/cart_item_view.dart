@@ -5,6 +5,7 @@ import 'package:To3maa/zakat/presentation/shared/constant/app_assets.dart';
 import 'package:To3maa/zakat/presentation/ui/home_page/cubit/zakat_cubit.dart';
 import 'package:To3maa/zakat/presentation/ui/home_page/cubit/zakat_states.dart';
 import 'package:To3maa/zakat/presentation/ui/home_page/tabs/cart/cart_product_item_view.dart';
+import 'package:To3maa/zakat/presentation/ui_components/loading_dialog.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:To3maa/zakat/presentation/shared/constant/app_constants.dart';
@@ -52,10 +53,19 @@ class _CartItemViewState extends State<CartItemView> {
           listener: (context, state) async {
             if (state.zakatState ==
                 RequestState.getZakatProductsByZakatIdLoading) {
+              showLoading();
             } else if (state.zakatState ==
                 RequestState.getZakatProductsByZakatIdError) {
+              hideLoading();
+              final snackBar = SnackBar(
+                duration:
+                Duration(milliseconds: AppConstants.durationOfSnackBar),
+                content: Text(state.zakatMessage),
+              );
+              ScaffoldMessenger.of(context).showSnackBar(snackBar);
             } else if (state.zakatState ==
                 RequestState.getZakatProductsByZakatIdLoaded) {
+              hideLoading();
               cartProductsItems = state.zakatProductsByZakatIdList;
             }
           },
