@@ -148,21 +148,6 @@ class _HomePageViewState extends State<HomePageView> {
                     ),
                   ),
                   Expanded(
-                    child: SizedBox(
-                      height: 50.h,
-                      width: 40.w,
-                      child: GestureDetector(
-                        onTap: () async {
-                          await ZakatCubit.get(context).logout();
-                        },
-                        child: SvgPicture.asset(
-                          AppAssets.logout,
-                          width: 35.w,
-                        ),
-                      ),
-                    ),
-                  ),
-                  Expanded(
                     child: Container(
                       padding:
                       EdgeInsets.symmetric(horizontal: 0, vertical: 30.h),
@@ -194,11 +179,22 @@ class _HomePageViewState extends State<HomePageView> {
                       ),
                     ),
                   ),
-
                 ],
               ),
             ),
-          )
+          ),
+          Positioned(
+            left: 30,
+            bottom: 40.h,
+            child: GestureDetector(
+            onTap: () async {
+              await ZakatCubit.get(context).logout();
+            },
+            child: SvgPicture.asset(
+              AppAssets.logout,
+              width: 35.w,
+            ),
+          ),)
         ],
       );
     });
